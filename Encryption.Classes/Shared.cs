@@ -23,7 +23,7 @@ namespace Encryption.Classes
             }
         }
 
-        public static string SendString(NetworkStream stream, string message, RSACryptoServiceProvider rsa = null, ResponseOption responseOption = ResponseOption.Message)
+        public static string SendString(NetworkStream stream, string message, RSACryptoServiceProvider rsa = null, ResponseOption responseOption = ResponseOption.Response)
         {
             //StreamWriter could be used instead
 
@@ -42,13 +42,13 @@ namespace Encryption.Classes
             stream.Write(messageBytes, 0, messageBytes.Length);
             stream.Flush();
 
-            if (responseOption == ResponseOption.Message)
-                return ReceiveString(stream, null, ResponseOption.Response); //no encryption here
+            if (responseOption == ResponseOption.Response)
+                return ReceiveString(stream, null, ResponseOption.NoResponse); //no encryption here
             else
                 return null;
         }
 
-        public static string ReceiveString(NetworkStream stream, RSACryptoServiceProvider rsa = null, ResponseOption responseOption = ResponseOption.Message)
+        public static string ReceiveString(NetworkStream stream, RSACryptoServiceProvider rsa = null, ResponseOption responseOption = ResponseOption.Response)
         {
             //StreamReader could be used instead
 
@@ -95,16 +95,16 @@ namespace Encryption.Classes
                 data = co.Bytes;
             }
 
-            if (responseOption == ResponseOption.Message)
-                SendString(stream, "Data received", null, ResponseOption.Response); //no encryption here
+            if (responseOption == ResponseOption.Response)
+                SendString(stream, "Data received", null, ResponseOption.NoResponse); //no encryption here
 
             return ascii.GetString(data); //will throw when no data is received and thus, data is invalid ascii bytes
         }
 
         public enum ResponseOption
         {
-            Response,
-            Message
+            NoResponse,
+            Response
         }
     }
 }
