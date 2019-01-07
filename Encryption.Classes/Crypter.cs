@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Encryption.Classes
 {
-    public class CryptObject
+    public class Crypter
     {
-        public CryptObject(byte[] b)
+        public Crypter(byte[] b)
         {
             Bytes = b;
         }
@@ -25,9 +25,9 @@ namespace Encryption.Classes
                 Bytes = rsa.Decrypt(Bytes, true);
                 return null;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                return e.Message;
+                throw;
             }
         }
     }

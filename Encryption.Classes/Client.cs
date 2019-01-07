@@ -11,12 +11,12 @@ namespace Encryption.Classes
 {
     public class Client
     {
-
         public Client(string serverIP, int port)
         {
             ServerIP = serverIP;
             Port = port;
         }
+
         public void SendMessage(string message)
         {
             using (var client = new TcpClient())
@@ -24,19 +24,9 @@ namespace Encryption.Classes
                 try
                 {
                     client.Connect(IPAddress.Parse(ServerIP), Port);
-                    var stream = client.GetStream();
-                    var ascii = new ASCIIEncoding();
-                    var messageBytes = ascii.GetBytes(message);
 
-                    if (Rsa != null)
-                    {
-                        //Console.WriteLine($"Encryption public key: {Rsa.ToXmlString(false)}");
-                        var co = new CryptObject(messageBytes);
-                        co.Encrypt(Rsa);
-                        messageBytes = co.Bytes;
-                    }
-
-                    stream.Write(messageBytes, 0, messageBytes.Length);
+                    //Console.WriteLine($"Encryption public key: {Rsa.ToXmlString(false)}");
+                    Console.WriteLine($"Response: {Shared.SendString(client.GetStream(), message, Rsa)}");
                 }
                 catch (Exception e)
                 {
@@ -45,8 +35,8 @@ namespace Encryption.Classes
             }
         }
 
-        public int Port { get; set; }
         public string ServerIP { get; set; }
+        public int Port { get; set; }
 
         public RSACryptoServiceProvider Rsa { get; set; }
     }
