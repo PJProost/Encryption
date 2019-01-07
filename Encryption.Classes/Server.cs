@@ -12,6 +12,12 @@ namespace Encryption.Classes
 {
     public class Server
     {
+        public Server(string listenIP, int port)
+        {
+            ListenIP = listenIP;
+            Port = port;
+        }
+
         public void WaitForMessage()
         {
             Console.WriteLine("Server thread started");

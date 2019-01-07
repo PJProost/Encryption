@@ -18,11 +18,9 @@ namespace Encryption.Messaging
             //signing: to ensure the identity of the sender
             //no signing was implemented in this exercise
 
-            var server = new Server
+            var server = new Server(Shared.GetIPAddress(), 1337)
             {
                 Rsa = receiverRsa, //receive data without decrypting by commenting this line
-                ListenIP = Shared.GetIPAddress(),
-                Port = 1337
             };
             var serverThread = new Thread(server.WaitForMessage)
             {
@@ -38,11 +36,9 @@ namespace Encryption.Messaging
                 if (message == "exit") {
                     break;
                 }
-                var client = new Client
+                var client = new Client(Shared.GetIPAddress(), 1337)
                 {
                     Rsa = receiverRsa, //send plain text data without encryption by commenting this line
-                    ServerIP = Shared.GetIPAddress(),
-                    Port = 1337
                 };
                 client.SendMessage(message);
 

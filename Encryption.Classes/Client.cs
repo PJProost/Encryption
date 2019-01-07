@@ -11,6 +11,12 @@ namespace Encryption.Classes
 {
     public class Client
     {
+
+        public Client(string serverIP, int port)
+        {
+            ServerIP = serverIP;
+            Port = port;
+        }
         public void SendMessage(string message)
         {
             using (var client = new TcpClient())
